@@ -33,6 +33,11 @@ namespace ImageProcessor.Imaging
         /// <summary>
         /// Constrains the resized image to fit the bounds of its container.
         /// </summary>
-        Max
+        Max,
+
+        /// <summary>
+        /// Pads the resized image to fit the bounds of its container, if the dimensions exceed the original ones.
+        /// </summary>
+        FullPad,
     }
 }

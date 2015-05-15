@@ -187,6 +187,82 @@ namespace ImageProcessor.Imaging
                     }
                 }
 
+                if (resizeMode == ResizeMode.FullPad && width > 0 && height > 0)
+                {
+                    if (width > sourceWidth & height > sourceHeight)
+                    {
+                        destinationWidth = sourceWidth;
+                        destinationHeight = sourceHeight;
+
+                        switch (anchorPosition)
+                        {
+                            case AnchorPosition.Left:
+                                destinationX = 0;
+                                break;
+                            case AnchorPosition.Right:
+                                destinationX = width - sourceWidth;
+                                break;
+                            default:
+                                destinationX = (width - sourceWidth) / 2;
+                                break;
+                        }
+                    
+                        switch (anchorPosition)
+                        {
+                            case AnchorPosition.Top:
+                                destinationY = 0;
+                                break;
+                            case AnchorPosition.Bottom:
+                                destinationY = height - sourceHeight;
+                                break;
+                            default:
+                                destinationY = (height - sourceHeight) / 2;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        double ratio;
+
+                        if (percentHeight < percentWidth)
+                        {
+                            ratio = percentHeight;
+                            destinationWidth = Convert.ToInt32(sourceWidth * percentHeight);
+
+                            switch (anchorPosition)
+                            {
+                                case AnchorPosition.Left:
+                                    destinationX = 0;
+                                    break;
+                                case AnchorPosition.Right:
+                                    destinationX = (int)(width - (sourceWidth * ratio));
+                                    break;
+                                default:
+                                    destinationX = Convert.ToInt32((width - (sourceWidth * ratio)) / 2);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            ratio = percentWidth;
+                            destinationHeight = Convert.ToInt32(sourceHeight * percentWidth);
+
+                            switch (anchorPosition)
+                            {
+                                case AnchorPosition.Top:
+                                    destinationY = 0;
+                                    break;
+                                case AnchorPosition.Bottom:
+                                    destinationY = (int)(height - (sourceHeight * ratio));
+                                    break;
+                                default:
+                                    destinationY = (int)((height - (sourceHeight * ratio)) / 2);
+                                    break;
+                            }
+                        }
+                    }
+                }
+
                 // Change the destination rectangle coordinates if cropping and
                 // there has been a set width and height.
                 if (resizeMode == ResizeMode.Crop && width > 0 && height > 0)
